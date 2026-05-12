@@ -30,22 +30,22 @@ export default async function RecordPage(props: { params: Promise<{ id: string }
                                 <CardContent>
                                     {record.created && (
                                         <p className="text-sm text-gray-500">
-                                            Created: {new Date(record.created).toLocaleString()}
+                                            <b>Created</b>: {new Date(record.created).toLocaleString()}
                                         </p>
                                     )}
                                     {record.modified && (
                                         <p className="text-sm text-gray-500">
-                                            Last Modified: {new Date(record.modified).toLocaleString()}
+                                            <b>Last Modified</b>: {new Date(record.modified).toLocaleString()}
                                         </p>
                                     )}
                                     {owner && (
                                         <>
                                             <p className="text-sm text-gray-500 mt-2">
-                                                Owner: <Link href={`/users/${owner.username}`} className="text-blue-600 hover:underline">{owner.username}</Link>
+                                                <b>Owner</b>: <Link href={`/users/${owner.username}`} className="text-blue-600 hover:underline">{owner.username}</Link>
                                             </p>
                                             {owner.email && (
                                                 <p className="text-sm text-gray-500">
-                                                    Email: {owner.email}
+                                                    <b>Email</b>: {owner.email}
                                                 </p>
                                             )}
                                         </>
