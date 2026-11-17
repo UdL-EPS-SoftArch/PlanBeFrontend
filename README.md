@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js Client Template
+
+Template for a Next.js (App Router) client consuming the [`spring-template`](https://github.com/UdL-EPS-SoftArch/spring-template) Spring Data REST (HAL+JSON) backend, with shadcn/ui, `react-hook-form`, and Cucumber + Playwright E2E BDD testing.
+
+## Vision
+
+**For** students learning full-stack web engineering with Next.js and Spring Data REST
+**who** want to practice modern React Server/Client Components and hypermedia-driven API consumption
+**the project** is a frontend template project
+**that** provides user registration, Basic authentication, and secured record management integrated with a HAL+JSON backend
+**Unlike** other templates, this one is designed for iterative feature building with E2E BDD (Cucumber + Playwright) tests driving the development
 
 ## Getting Started
 
-First, run the development server:
+1. Start the Spring Boot backend ([`spring-template`](https://github.com/UdL-EPS-SoftArch/spring-template)) on `http://127.0.0.1:8080`.
+2. Run the Next.js development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Running E2E BDD Tests
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+With both the backend (`http://127.0.0.1:8080`) and frontend (`http://localhost:3000`) running:
 
-## Learn More
+```bash
+npm run test:e2e
+# or concise CI output:
+npm run test:e2e:ci
+```
 
-To learn more about Next.js, take a look at the following resources:
+Reports are generated in `playwright-report/results.html` and `playwright-report/results.json`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## AI-Assisted Spec-Driven Development (SDD)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This repository serves as a starter template for **AI-Assisted Spec-Driven Development (SDD)** with **Next.js (App Router)**, **Spring Data REST (HAL)**, and **Cucumber + Playwright BDD**.
 
-## Deploy on Vercel
+It is pre-configured with agent skills (`skills/`), repository instructions (`AGENTS.md`, `CONVENTIONS.md`), and Aider configuration (`.aider.conf.yml`) to support both:
+1. **Full-Capability AI Agents** (OpenCode, Claude Code, Cursor, GitHub Copilot, Windsurf).
+2. **Token-Constrained APIs** (Aider paired with Groq free tier - 8K token limits).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+For complete stage-by-stage instructions and command workflows, see **[AI_DEVELOPMENT_GUIDE.md](AI_DEVELOPMENT_GUIDE.md)**.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### SDD Agent Skills (`skills/`)
+- **`skills/sdd-feature-designer/SKILL.md`**: Draft concise Cucumber E2E `.feature` specs in `tests/e2e/`.
+- **`skills/sdd-cucumber-steps/SKILL.md`**: Implement Cucumber + Playwright step definitions in `tests/e2e/steps/*.steps.ts`.
+- **`skills/nextjs-hal-api/SKILL.md`**: Create TypeScript HAL entity types (`src/types/`) and Spring Data REST API service classes (`src/api/`).
+- **`skills/nextjs-ui-pages/SKILL.md`**: Create Next.js App Router Server/Client pages and `react-hook-form` + shadcn/ui forms (`src/app/`).
+- **`skills/sdd-bdd-verifier/SKILL.md`**: Run `npm run test:e2e:ci` and `npm run build` and diagnose test failures.
