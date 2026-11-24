@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>PlanBe · Detalle de quedada</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 100%; min-height: 100vh; background: #FFFFFF; color: #16181D; font-family: 'Inter', system-ui, sans-serif; display: flex; flex-direction: column">
+  <dc-import name="Navbar" active="quedadas" logged="{{ yes }}" compact="{{ compact }}" hint-size="100%,72px"></dc-import>
+
+  <main style="flex: 1; max-width: 1240px; width: 100%; margin: 0 auto; box-sizing: border-box; padding: 32px 20px 72px; display: flex; flex-direction: column; gap: 28px">
+    <nav aria-label="Migas de pan" style="font-size: 14px; color: #4A4F5A; display: flex; gap: 8px; flex-wrap: wrap"><a href="Quedadas.dc.html" style="color: #4A4F5A; text-decoration: none; font-weight: 500">Quedadas</a><span aria-hidden="true">/</span><span style="color: #16181D; font-weight: 500">Ruta en bici por La Mitjana</span></nav>
+
+    <header style="display: flex; flex-direction: column; gap: 14px">
+      <div style="display: flex; flex-wrap: wrap; gap: 8px">
+        <span style="padding: 4px 10px; border-radius: 8px; background: #FDEBE4; color: #9A3412; font-weight: 600; font-size: 13px">Deporte</span>
+        <span style="padding: 4px 10px; border-radius: 8px; border: 1px solid #E7E5E0; color: #4A4F5A; font-weight: 500; font-size: 13px">Pública</span>
+        <span style="padding: 4px 10px; border-radius: 999px; background: #E0F2F0; color: #0F5F58; font-weight: 600; font-size: 13px">Abierta</span>
+      </div>
+      <h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(32px, 4.4vw, 52px); line-height: 1.05; letter-spacing: -0.03em">Ruta en bici por La Mitjana</h1>
+      <div style="display: flex; align-items: center; gap: 10px">
+        <span style="width: 36px; height: 36px; border-radius: 999px; background: #16181D; color: #FFFFFF; font-weight: 700; font-size: 13px; display: inline-flex; align-items: center; justify-content: center">PS</span>
+        <span style="font-size: 15px; color: #4A4F5A">Organiza <a href="Perfil.dc.html" style="color: #16181D; font-weight: 600; text-decoration: none">Pau Serra</a> · ★ 4,8</span>
+      </div>
+    </header>
+
+    <div style="display: flex; flex-direction: row-reverse; flex-wrap: wrap; gap: 32px; align-items: flex-start">
+      <aside style="flex: 1 1 340px; min-width: 0; box-sizing: border-box; padding: 24px; border-radius: 20px; border: 1px solid #E7E5E0; box-shadow: 0 1px 2px rgba(22,24,29,0.04), 0 12px 32px rgba(22,24,29,0.06); display: flex; flex-direction: column; gap: 18px">
+        <div style="display: flex; gap: 14px; align-items: center">
+          <div style="width: 60px; height: 64px; border-radius: 12px; background: #FDEBE4; color: #9A3412; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0"><span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 24px; line-height: 1">13</span><span style="font-weight: 600; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 4px">dic</span></div>
+          <div style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 600; font-size: 16px">Sábado, 13 de diciembre</span><span style="font-size: 14px; color: #4A4F5A">10:30 – 13:00</span></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <div style="display: flex; justify-content: space-between; font-size: 14px"><span style="font-weight: 600">Quedan 4 plazas</span><span style="color: #6B7080">8/12</span></div>
+          <div style="height: 8px; border-radius: 999px; background: #F0EEEA; overflow: hidden"><div style="height: 100%; width: 67%; border-radius: 999px; background: #0F766E"></div></div>
+        </div>
+        <sc-if value="{{ notJoined }}" hint-placeholder-val="{{ true }}">
+          <button type="button" onClick="{{ join }}" style="height: 52px; border: none; border-radius: 12px; background: #C2410C; color: #FFFFFF; font: 700 16px 'Inter', sans-serif; cursor: pointer">Unirme a la quedada</button>
+          <span style="font-size: 13px; line-height: 1.5; color: #4A4F5A">Si se llena antes, entrarás en la lista de espera y te avisaremos si se libera una plaza.</span>
+        </sc-if>
+        <sc-if value="{{ joined }}" hint-placeholder-val="{{ false }}">
+          <div role="status" style="display: flex; gap: 10px; align-items: center; padding: 14px; border-radius: 12px; background: #E0F2F0; color: #0F5F58"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg><span style="font-weight: 600; font-size: 15px">Estás confirmado</span></div>
+          <button type="button" onClick="{{ leave }}" style="height: 44px; border: 1px solid #D6D3CC; border-radius: 10px; background: #FFFFFF; color: #16181D; font: 600 15px 'Inter', sans-serif; cursor: pointer">Abandonar quedada</button>
+        </sc-if>
+        <button type="button" style="height: 44px; border: 1px solid #D6D3CC; border-radius: 10px; background: #FFFFFF; color: #16181D; font: 600 15px 'Inter', sans-serif; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M19 8v6M22 11h-6"></path></svg>Invitar a alguien</button>
+      </aside>
+
+      <div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 36px">
+        <section style="display: flex; flex-direction: column; gap: 12px">
+          <h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 24px">Sobre el plan</h2>
+          <p style="margin: 0; font-size: 16px; line-height: 1.7; color: #2B2F36; max-width: 680px">Salimos desde la Seu Vella y bajamos hasta el parque de La Mitjana a ritmo tranquilo, con parada para almorzar junto al río. Unos 18 km sin cuestas fuertes. Trae casco, agua y algo de comer.</p>
+        </section>
+
+        <section style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px">
+          <div style="padding: 16px; border-radius: 14px; background: #F5F5F3; display: flex; flex-direction: column; gap: 4px"><span style="font-weight: 600; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #6B7080">Precio</span><span style="font-weight: 600; font-size: 16px">Gratis</span></div>
+          <div style="padding: 16px; border-radius: 14px; background: #F5F5F3; display: flex; flex-direction: column; gap: 4px"><span style="font-weight: 600; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #6B7080">Edad</span><span style="font-weight: 600; font-size: 16px">18 – 45 años</span></div>
+          <div style="padding: 16px; border-radius: 14px; background: #F5F5F3; display: flex; flex-direction: column; gap: 4px"><span style="font-weight: 600; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #6B7080">Para</span><span style="font-weight: 600; font-size: 16px">Todos</span></div>
+          <div style="padding: 16px; border-radius: 14px; background: #F5F5F3; display: flex; flex-direction: column; gap: 4px"><span style="font-weight: 600; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #6B7080">Se repite</span><span style="font-weight: 600; font-size: 16px">Cada semana</span></div>
+        </section>
+
+        <section style="display: flex; flex-direction: column; gap: 12px">
+          <h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 24px">Dónde</h2>
+          <div style="border-radius: 16px; border: 1px solid #E7E5E0; overflow: hidden">
+            <div style="height: 200px; background-color: #EEF0EC; background-image: linear-gradient(#E2E5DF 1px, transparent 1px), linear-gradient(90deg, #E2E5DF 1px, transparent 1px); background-size: 32px 32px; display: flex; align-items: center; justify-content: center" role="img" aria-label="Mapa de la ubicación (opcional)"><svg width="40" height="40" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z" fill="#E4572E"></path><circle cx="12" cy="10" r="2.6" fill="#FFFFFF"></circle></svg></div>
+            <div style="padding: 16px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center"><div style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 600; font-size: 15px">Seu Vella</span><span style="font-size: 14px; color: #4A4F5A">Turó de la Seu Vella, 25002 Lleida</span></div><a href="#mapa" style="color: #C2410C; font-weight: 600; font-size: 14px; text-decoration: none; padding: 10px 0">Abrir en el mapa →</a></div>
+          </div>
+        </section>
+
+        <section style="display: flex; flex-direction: column; gap: 14px">
+          <h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 24px">Quién va <span style="font-family: 'Inter', sans-serif; font-weight: 500; font-size: 16px; color: #6B7080">· 8 confirmados</span></h2>
+          <div style="display: flex; align-items: center">
+            <sc-for list="{{ people }}" as="p" hint-placeholder-count="6">
+              <span style="{{ p.style }}">{{ p.i }}</span>
+            </sc-for>
+            <span style="margin-left: 12px; font-size: 14px; color: #4A4F5A">y 2 más</span>
+          </div>
+        </section>
+
+        <section style="display: flex; flex-direction: column; gap: 16px">
+          <h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 24px">Comentarios</h2>
+          <div style="display: flex; gap: 12px"><span style="width: 36px; height: 36px; border-radius: 999px; background: #DCEBFA; color: #1E4E8C; font-weight: 700; font-size: 12px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0">JP</span><div style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 14px"><span style="font-weight: 600">Jordi Puig</span> <span style="color: #6B7080">· hace 2 h</span></span><span style="font-size: 15px; line-height: 1.6; color: #2B2F36">¿Se puede ir con bici eléctrica?</span></div></div>
+          <div style="display: flex; gap: 12px"><span style="width: 36px; height: 36px; border-radius: 999px; background: #16181D; color: #FFFFFF; font-weight: 700; font-size: 12px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0">PS</span><div style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 14px"><span style="font-weight: 600">Pau Serra</span> <span style="padding: 2px 6px; border-radius: 6px; background: #F5F5F3; font-size: 12px; font-weight: 600; color: #4A4F5A">Organizador</span> <span style="color: #6B7080">· hace 1 h</span></span><span style="font-size: 15px; line-height: 1.6; color: #2B2F36">¡Claro! Vamos a ritmo tranquilo, así que cualquier bici sirve.</span></div></div>
+          <form style="display: flex; flex-direction: column; gap: 10px; padding-top: 8px">
+            <label for="d-c" style="font-weight: 600; font-size: 14px">Escribe un comentario</label>
+            <textarea id="d-c" rows="3" placeholder="Pregunta o comparte algo con el grupo" style="box-sizing: border-box; padding: 12px 14px; border: 1px solid #D6D3CC; border-radius: 10px; font: 400 15px 'Inter', sans-serif; resize: vertical"></textarea>
+            <button type="button" style="align-self: flex-end; height: 40px; padding: 0 16px; border: none; border-radius: 10px; background: #16181D; color: #FFFFFF; font: 600 14px 'Inter', sans-serif; cursor: pointer">Publicar</button>
+          </form>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <dc-import name="Footer" hint-size="100%,160px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"compact":{"editor":"boolean","default":false},"$preview":{"width":1440,"height":1900}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { joined: false }; }
+  renderVals() {
+    const colors = [['#16181D', '#FFFFFF'], ['#DCEBFA', '#1E4E8C'], ['#FDEBE4', '#9A3412'], ['#E0F2F0', '#0F5F58'], ['#FEF3C7', '#8A3F07'], ['#ECE7F6', '#4C2F86']];
+    const people = ['PS', 'JP', 'LM', 'NR', 'AG', 'MV'].map((i, n) => ({
+      i,
+      style: `width: 40px; height: 40px; border-radius: 999px; background: ${colors[n][0]}; color: ${colors[n][1]}; font-weight: 700; font-size: 13px; display: inline-flex; align-items: center; justify-content: center; border: 3px solid #FFFFFF; margin-left: ${n === 0 ? 0 : -10}px`,
+    }));
+    return {
+      yes: true,
+      compact: this.props.compact ?? false,
+      joined: this.state.joined,
+      notJoined: !this.state.joined,
+      join: () => this.setState({ joined: true }),
+      leave: () => this.setState({ joined: false }),
+      people,
+    };
+  }
+}
+</script>
+</body>
+</html>

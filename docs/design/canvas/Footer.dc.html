@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Footer</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<footer style="width: 100%; box-sizing: border-box; background: #F5F5F3; border-top: 1px solid #E7E5E0; font-family: 'Inter', system-ui, sans-serif; color: #16181D">
+  <div style="max-width: 1240px; margin: 0 auto; box-sizing: border-box; padding: 40px 20px; display: flex; flex-wrap: wrap; gap: 24px 48px; align-items: flex-start; justify-content: space-between">
+    <div style="display: flex; flex-direction: column; gap: 10px; max-width: 360px">
+      <span style="display: inline-flex; align-items: center; gap: 8px">
+        <svg width="24" height="24" viewBox="0 0 28 28" aria-hidden="true"><rect x="0" y="0" width="28" height="28" rx="8" fill="#E4572E"></rect><path d="M14 6.5c-3.3 0-6 2.6-6 5.9 0 4.3 6 9.1 6 9.1s6-4.8 6-9.1c0-3.3-2.7-5.9-6-5.9z" fill="#FFFFFF"></path><circle cx="14" cy="12.4" r="2.2" fill="#E4572E"></circle></svg>
+        <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; letter-spacing: -0.02em">Plan<span style="color: #C2410C">Be</span></span>
+      </span>
+      <span style="font-size: 14px; line-height: 1.5; color: #4A4F5A">Quedadas con gente que comparte tus planes.</span>
+    </div>
+    <nav aria-label="Pie de página" style="display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: 14px">
+      <a href="Quedadas.dc.html" style="color: #16181D; text-decoration: none; font-weight: 500; padding: 10px 0">Quedadas</a>
+      <a href="#grupos" style="color: #16181D; text-decoration: none; font-weight: 500; padding: 10px 0">Grupos</a>
+      <a href="Crear.dc.html" style="color: #16181D; text-decoration: none; font-weight: 500; padding: 10px 0">Crear quedada</a>
+      <a href="#privacidad" style="color: #16181D; text-decoration: none; font-weight: 500; padding: 10px 0">Privacidad</a>
+    </nav>
+    <span style="flex-basis: 100%; font-size: 13px; color: #6B7080">© 2026 PlanBe · Proyecto de Arquitectura del Software, Universitat de Lleida</span>
+  </div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":160}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

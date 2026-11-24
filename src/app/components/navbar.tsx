@@ -1,62 +1,88 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
+import { useState } from "react";
 import { usePathname } from "next/navigation";
+import { Menu } from "lucide-react";
 import { useAuth } from "@/app/components/authentication";
 import Loginbar from "@/app/components/loginbar";
+import { Logo } from "@/components/brand/Logo";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { NAV_LINKS, isActivePath } from "@/lib/navigation";
+import { hasRole } from "@/types/user";
+import { cn } from "@/lib/utils";
 
 export default function Navbar() {
     const pathname = usePathname();
-    const {user} = useAuth();
+    const { user } = useAuth();
+    const [open, setOpen] = useState(false);
 
-    const navLinks = [
-        {href: "/", label: "Home"},
-        {href: "/users", label: "Users", roles: ["ROLE_USER"]}
-    ];
+    const links = NAV_LINKS.filter(({ roles }) => !roles || hasRole(user, ...roles));
 
     return (
-        <nav className="bg-white border-b shadow-sm dark:bg-black">
-            <div className="max-w-7xl mx-auto px-6 py-4 flex items-center gap-6">
-                <div className="flex gap-2 font-bold w-auto">
-                    <Image
-                        className="dark:invert"
-                        src="/next.svg"
-                        alt="Next.js logo"
-                        width={80}
-                        height={16}
-                        priority
-                    /> Template
-                </div>
+        <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/85">
+            <nav aria-label="Principal" className="mx-auto flex h-[72px] w-full max-w-[1240px] items-center gap-7 px-5">
+                <Logo />
 
-                <div className="flex gap-4">
-                    {navLinks
-                        .filter(({roles}) =>
-                            !roles || user?.authorities?.some(
-                                userAuth => roles.includes(userAuth.authority)))
-                        .map(({href, label}) => {
-                            const active = pathname === href;
-                            return (
+                <ul className="hidden min-w-0 flex-1 items-center gap-1 md:flex">
+                    {links.map(({ href, label }) => {
+                        const active = isActivePath(pathname, href);
+                        return (
+                            <li key={href}>
                                 <Link
-                                    key={href}
                                     href={href}
-                                    className={
+                                    aria-current={active ? "page" : undefined}
+                                    className={cn(
+                                        "inline-flex h-10 items-center whitespace-nowrap rounded-lg px-3 text-[15px] transition-colors",
                                         active
-                                            ? "text-blue-600 font-medium border-b-2 border-blue-600 pb-1"
-                                            : "text-gray-600 hover:text-gray-900 transition"
-                                    }
+                                            ? "bg-muted font-semibold text-foreground shadow-[inset_0_-2px_0_var(--primary)]"
+                                            : "font-medium text-ink-soft hover:bg-muted hover:text-foreground",
+                                    )}
                                 >
                                     {label}
                                 </Link>
-                            );
-                        })}
-                </div>
+                            </li>
+                        );
+                    })}
+                </ul>
 
-                <div className="ml-auto">
-                    <Loginbar/>
+                <div className="ml-auto flex items-center gap-2 md:ml-0">
+                    <Loginbar />
+                    <Sheet open={open} onOpenChange={setOpen}>
+                        <SheetTrigger asChild>
+                            <Button variant="outline" size="icon" className="md:hidden" aria-label="Abrir menú">
+                                <Menu aria-hidden="true" />
+                            </Button>
+                        </SheetTrigger>
+                        <SheetContent side="right" className="w-72">
+                            <SheetHeader>
+                                <SheetTitle>Menú</SheetTitle>
+                            </SheetHeader>
+                            <ul className="flex flex-col gap-1 px-4">
+                                {links.map(({ href, label }) => {
+                                    const active = isActivePath(pathname, href);
+                                    return (
+                                        <li key={href}>
+                                            <Link
+                                                href={href}
+                                                onClick={() => setOpen(false)}
+                                                aria-current={active ? "page" : undefined}
+                                                className={cn(
+                                                    "flex h-11 items-center rounded-lg px-3 text-base",
+                                                    active ? "bg-accent font-semibold text-accent-foreground" : "font-medium hover:bg-muted",
+                                                )}
+                                            >
+                                                {label}
+                                            </Link>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </SheetContent>
+                    </Sheet>
                 </div>
-
-            </div>
-        </nav>
+            </nav>
+        </header>
     );
 }

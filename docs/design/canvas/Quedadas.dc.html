@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>PlanBe · Quedadas</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 100%; min-height: 100vh; background: #FFFFFF; color: #16181D; font-family: 'Inter', system-ui, sans-serif; display: flex; flex-direction: column">
+  <dc-import name="Navbar" active="quedadas" logged="{{ yes }}" hint-size="100%,72px"></dc-import>
+
+  <main style="flex: 1; max-width: 1240px; width: 100%; margin: 0 auto; box-sizing: border-box; padding: 48px 20px 72px; display: flex; flex-direction: column; gap: 28px">
+    <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px">
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 40px; letter-spacing: -0.025em">Quedadas</h1>
+        <span style="font-size: 15px; color: #4A4F5A">Solo ves las quedadas públicas y las de tus grupos.</span>
+      </div>
+      <a href="Crear.dc.html" style="height: 44px; padding: 0 18px; border-radius: 10px; background: #C2410C; color: #FFFFFF; font-weight: 600; font-size: 15px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Crear quedada</a>
+    </div>
+
+    <form role="search" aria-label="Filtrar quedadas" style="display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; padding: 16px; border-radius: 16px; background: #F5F5F3">
+      <div style="flex: 2 1 260px; display: flex; flex-direction: column; gap: 6px">
+        <label for="f-q" style="font-weight: 600; font-size: 13px">Buscar</label>
+        <div style="position: relative"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4A4F5A" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="position: absolute; left: 12px; top: 13px"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg><input id="f-q" placeholder="Título o descripción" style="width: 100%; height: 44px; box-sizing: border-box; padding: 0 12px 0 38px; border: 1px solid #D6D3CC; border-radius: 10px; background: #FFFFFF; font: 400 15px 'Inter', sans-serif"></div>
+      </div>
+      <div style="flex: 1 1 170px; display: flex; flex-direction: column; gap: 6px">
+        <label for="f-cat" style="font-weight: 600; font-size: 13px">Categoría</label>
+        <select id="f-cat" style="height: 44px; box-sizing: border-box; padding: 0 12px; border: 1px solid #D6D3CC; border-radius: 10px; background: #FFFFFF; font: 400 15px 'Inter', sans-serif; color: #16181D"><option>Todas</option><option>Deporte</option><option>Ocio</option></select>
+      </div>
+      <div style="flex: 1 1 170px; display: flex; flex-direction: column; gap: 6px">
+        <label for="f-city" style="font-weight: 600; font-size: 13px">Ciudad</label>
+        <input id="f-city" value="Lleida" style="height: 44px; box-sizing: border-box; padding: 0 12px; border: 1px solid #D6D3CC; border-radius: 10px; background: #FFFFFF; font: 400 15px 'Inter', sans-serif">
+      </div>
+      <div style="flex: 1 1 170px; display: flex; flex-direction: column; gap: 6px">
+        <label for="f-date" style="font-weight: 600; font-size: 13px">Desde</label>
+        <input id="f-date" type="date" value="2026-12-01" style="height: 44px; box-sizing: border-box; padding: 0 12px; border: 1px solid #D6D3CC; border-radius: 10px; background: #FFFFFF; font: 400 15px 'Inter', sans-serif">
+      </div>
+      <button type="button" style="height: 44px; padding: 0 16px; border: none; border-radius: 10px; background: transparent; color: #16181D; font: 600 14px 'Inter', sans-serif; cursor: pointer">Limpiar</button>
+    </form>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center">
+      <span style="font-size: 14px; color: #4A4F5A; margin-right: 4px">Filtros activos:</span>
+      <span style="height: 32px; padding: 0 6px 0 12px; border-radius: 999px; background: #FDEBE4; color: #9A3412; font-weight: 600; font-size: 13px; display: inline-flex; align-items: center; gap: 4px">Ciudad: Lleida<button type="button" aria-label="Quitar filtro ciudad" style="width: 24px; height: 24px; border: none; border-radius: 999px; background: transparent; color: #9A3412; cursor: pointer; display: inline-flex; align-items: center; justify-content: center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button></span>
+      <span style="height: 32px; padding: 0 6px 0 12px; border-radius: 999px; background: #FDEBE4; color: #9A3412; font-weight: 600; font-size: 13px; display: inline-flex; align-items: center; gap: 4px">Desde 1 dic<button type="button" aria-label="Quitar filtro fecha" style="width: 24px; height: 24px; border: none; border-radius: 999px; background: transparent; color: #9A3412; cursor: pointer; display: inline-flex; align-items: center; justify-content: center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button></span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px">
+      <sc-for list="{{ meetups }}" as="m" hint-placeholder-count="9">
+        <dc-import name="MeetupCard" item="{{ m }}" hint-size="100%,372px"></dc-import>
+      </sc-for>
+    </div>
+
+    <nav aria-label="Paginación" style="display: flex; justify-content: center; align-items: center; gap: 6px; padding-top: 8px">
+      <a href="#prev" aria-disabled="true" style="height: 44px; padding: 0 14px; border-radius: 10px; color: #8A8F99; font-weight: 600; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center">← Anterior</a>
+      <a href="#p1" aria-current="page" style="width: 44px; height: 44px; border-radius: 10px; background: #16181D; color: #FFFFFF; font-weight: 600; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; justify-content: center">1</a>
+      <a href="#p2" style="width: 44px; height: 44px; border-radius: 10px; color: #16181D; font-weight: 600; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; justify-content: center">2</a>
+      <a href="#p3" style="width: 44px; height: 44px; border-radius: 10px; color: #16181D; font-weight: 600; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; justify-content: center">3</a>
+      <a href="#next" style="height: 44px; padding: 0 14px; border-radius: 10px; color: #16181D; font-weight: 600; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center">Siguiente →</a>
+    </nav>
+  </main>
+
+  <dc-import name="Footer" hint-size="100%,160px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1760}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      yes: true,
+      meetups: [
+        { title: 'Ruta en bici por La Mitjana', category: 'Deporte', day: '13', month: 'dic', when: 'Sáb · 10:30 – 13:00', place: 'Seu Vella, Lleida', taken: 8, total: 12, status: 'open', org: 'Pau Serra', initials: 'PS' },
+        { title: 'Tarde de juegos de mesa', category: 'Ocio', day: '13', month: 'dic', when: 'Sáb · 17:00 – 20:30', place: 'Café Lliure, Lleida', taken: 6, total: 6, status: 'full', org: 'Marta Vidal', initials: 'MV' },
+        { title: 'Intercambio de idiomas ES–EN', category: 'Idiomas', day: '16', month: 'dic', when: 'Mar · 19:00 – 21:00', place: 'Biblioteca Pública, Lleida', taken: 11, total: 20, status: 'open', org: 'Jordi Puig', initials: 'JP' },
+        { title: 'Running suave por el Segre', category: 'Deporte', day: '18', month: 'dic', when: 'Jue · 08:00 – 09:00', place: 'Pont Vell, Lleida', taken: 4, total: 10, status: 'open', org: 'Laia Martí', initials: 'LM' },
+        { title: 'Visita al mercado del Pla', category: 'Gastronomía', day: '20', month: 'dic', when: 'Sáb · 11:00 – 13:00', place: 'Plaça del Mercat, Lleida', taken: 9, total: 10, status: 'open', org: 'Núria Roca', initials: 'NR' },
+        { title: 'Excursión a Montsec', category: 'Naturaleza', day: '21', month: 'dic', when: 'Dom · 08:30 – 17:00', place: 'Estación de autobuses', taken: 14, total: 15, status: 'open', org: 'Pau Serra', initials: 'PS' },
+        { title: 'Cine fórum: clásicos de invierno', category: 'Cultura', day: '22', month: 'dic', when: 'Lun · 19:30 – 22:00', place: 'Cafè del Teatre, Lleida', taken: 0, total: 25, status: 'cancelled', org: 'Arnau Gil', initials: 'AG' },
+        { title: 'Pádel para principiantes', category: 'Deporte', day: '23', month: 'dic', when: 'Mar · 18:00 – 19:30', place: 'Club Esportiu, Lleida', taken: 3, total: 4, status: 'open', org: 'Marta Vidal', initials: 'MV' },
+        { title: 'Taller de cerámica', category: 'Cultura', day: '27', month: 'dic', when: 'Sáb · 10:00 – 12:30', place: 'Espai Fang, Lleida', taken: 5, total: 8, status: 'open', org: 'Núria Roca', initials: 'NR' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

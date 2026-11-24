@@ -1,174 +1,83 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
 import Link from "next/link";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useParams } from "next/navigation";
+import { MapPin } from "lucide-react";
 import { UsersService } from "@/api/userApi";
-import { RecordService } from "@/api/recordApi";
 import { clientAuthProvider } from "@/lib/authProvider";
-import { Record } from "@/types/record";
-import { User } from "@/types/user";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import { getErrorMessage, HalError } from "@/lib/errors";
+import { User, userLabel } from "@/types/user";
+import { useAuth } from "@/app/components/authentication";
+import { RequireAuth } from "@/components/common/RequireAuth";
+import { PageContainer } from "@/components/common/PageContainer";
+import { LoadingState } from "@/components/common/LoadingState";
+import { ErrorState } from "@/components/common/ErrorState";
+import { ComingSoon } from "@/components/common/ComingSoon";
+import { UserAvatar } from "@/components/common/UserAvatar";
 import { Button } from "@/components/ui/button";
 
-type FormValues = {
-    name: string;
-    description: string;
-};
-
 export default function UserDetailPage() {
+    return (
+        <PageContainer width="default">
+            <RequireAuth>
+                <Profile />
+            </RequireAuth>
+        </PageContainer>
+    );
+}
+
+function Profile() {
     const params = useParams();
     const userId = params?.id as string;
+    const { user: me } = useAuth();
 
     const [user, setUser] = useState<User | null>(null);
-    const [records, setRecords] = useState<Record[]>([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-
-    const {
-        register,
-        handleSubmit,
-        formState: { errors, isSubmitting },
-        reset,
-    } = useForm<FormValues>();
+    const [error, setError] = useState<unknown>(null);
 
     useEffect(() => {
-        async function fetchData() {
-            setLoading(true);
-            setError(null);
-            try {
-                const authProvider = clientAuthProvider();
-                const userService = new UsersService(authProvider);
-                const recordService = new RecordService(authProvider);
-                const userData = await userService.getUserById(userId);
-                setUser(userData);
-                const recordsData = await recordService.getRecordsByOwnedBy(userData);
-                setRecords(recordsData);
-            } catch (err) {
-                console.error(err);
-                setError("Failed to load user data.");
-            } finally {
-                setLoading(false);
-            }
-        }
-        fetchData();
+        let active = true;
+        new UsersService(clientAuthProvider())
+            .getUserById(userId)
+            .then(data => { if (active) setUser(data); })
+            .catch(err => { if (active) setError(err); })
+            .finally(() => { if (active) setLoading(false); });
+        return () => { active = false; };
     }, [userId]);
 
-    const onSubmit: SubmitHandler<FormValues> = async (data) => {
-        try {
-            const authProvider = clientAuthProvider();
-            const recordService = new RecordService(authProvider);
-            const newRecord = await recordService.createRecord({
-                name: data.name,
-                description: data.description || undefined,
-            } as Record);
-            setRecords((prev) => [...prev, newRecord]);
-            reset();
-        } catch (err) {
-            console.error(err);
-            setError("Failed to create record.");
-        }
-    };
+    if (loading) return <LoadingState label="Cargando perfil…" />;
 
-    if (loading) {
+    if (error || !user) {
+        const notFound = error instanceof HalError && error.status === 404;
         return (
-            <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-                <p>Loading...</p>
-            </div>
+            <ErrorState
+                title={notFound ? "Este perfil no existe" : "No hemos podido cargar el perfil"}
+                message={notFound ? `No hay ningún usuario llamado “${userId}”.` : getErrorMessage(error)}
+                action={<Button asChild variant="outline"><Link href="/">Volver al inicio</Link></Button>}
+            />
         );
     }
 
-    if (!user) {
-        return (
-            <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-                <p>User not found.</p>
-            </div>
-        );
-    }
+    const isMe = me?.username === user.username;
 
     return (
-        <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-            <main
-                className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-16 px-16 bg-white dark:bg-black sm:items-start">
-                <div className="flex flex-col items-center w-full gap-6 text-center sm:items-start sm:text-left">
-                    <div className="space-y-4 w-full">
-                        <h1 className="text-2xl font-semibold">{user.username}</h1>
-
-                        {user.email && (
-                            <p className="text-gray-700">
-                                <strong>Email:</strong> {user.email}
-                            </p>
-                        )}
-
-                        {/* New Record Form */}
-                        <Card className="w-full">
-                            <CardHeader>
-                                <CardTitle>Add New Record</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4">
-                                    <div>
-                                        <Label htmlFor="name">Name</Label>
-                                        <Input
-                                            id="name"
-                                            {...register("name", { required: "Name is required" })}
-                                        />
-                                        {errors.name && (
-                                            <p className="text-sm text-red-600 mt-1">{errors.name.message}</p>
-                                        )}
-                                    </div>
-
-                                    <div>
-                                        <Label htmlFor="description">Description</Label>
-                                        <Textarea
-                                            id="description"
-                                            {...register("description")}
-                                        />
-                                    </div>
-
-                                    <Button type="submit" disabled={isSubmitting}>
-                                        {isSubmitting ? "Creating..." : "Add Record"}
-                                    </Button>
-                                </form>
-                            </CardContent>
-                        </Card>
-
-                        {error && (
-                            <p className="text-sm text-red-600">{error}</p>
-                        )}
-
-                        <h2 className="text-xl font-semibold mt-8">Records</h2>
-
-                        {records.length === 0 ? (
-                            <p className="text-sm text-muted-foreground">No records created by the user yet.</p>
-                        ) : (
-                            <div className="space-y-3 w-full">
-                                {records.map((record, i) => (
-                                    <Card key={i} className="w-full">
-                                        <CardHeader>
-                                            <CardTitle>
-                                                <Link href={record.uri} className="hover:underline">
-                                                    {record.name}
-                                                </Link>
-                                            </CardTitle>
-                                            {record.description && (
-                                                <p className="text-sm text-muted-foreground line-clamp-1 mt-1">
-                                                    {record.description}
-                                                </p>
-                                            )}
-                                        </CardHeader>
-                                    </Card>
-                                ))}
-                            </div>
-                        )}
-
+        <div className="flex flex-col gap-10">
+            <section className="flex flex-wrap items-start gap-7 border-b pb-8">
+                <UserAvatar user={user} size="lg" />
+                <div className="flex min-w-0 flex-[1_1_360px] flex-col gap-2.5">
+                    <div className="flex flex-col gap-0.5">
+                        <h1 className="text-4xl font-bold tracking-[-0.02em]">{userLabel(user)}</h1>
+                        <p className="flex flex-wrap items-center gap-x-3 text-[15px] text-ink-soft">
+                            <span>@{user.username}</span>
+                            {user.city && <span className="inline-flex items-center gap-1"><MapPin className="size-4" aria-hidden="true" />{user.city}</span>}
+                        </p>
                     </div>
+                    {user.bio && <p className="max-w-[620px] text-base leading-relaxed">{user.bio}</p>}
+                    {isMe && user.email && <p className="text-sm text-muted-foreground">{user.email} · solo lo ves tú</p>}
                 </div>
-            </main>
+            </section>
+            {isMe && <ComingSoon what="Editar tu perfil e intereses" issue="[2.1] #44" />}
         </div>
     );
 }
