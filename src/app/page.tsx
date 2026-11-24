@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Suspense } from "react";
-import { CalendarSearch, Search } from "lucide-react";
+import { CalendarSearch } from "lucide-react";
 import { MeetupService } from "@/api/meetupApi";
 import { serverAuthProvider } from "@/lib/authProvider";
 import { getErrorMessage } from "@/lib/errors";
@@ -9,10 +9,7 @@ import { CardGridSkeleton } from "@/components/common/LoadingState";
 import { EmptyState } from "@/components/common/EmptyState";
 import { ErrorState } from "@/components/common/ErrorState";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { meetupId, type Meetup } from "@/types/meetup";
-
-const CATEGORIES = ["Deporte", "Cultura", "Ocio", "Idiomas", "Gastronomía", "Naturaleza"];
 
 const STEPS = [
     { title: "Busca", text: "Filtra por categoría, ciudad o fecha. Si completas tus intereses, te recomendamos planes." },
@@ -62,9 +59,9 @@ async function UpcomingMeetups() {
 
 export default function Home() {
     return (
-        <>
-            <section className="mx-auto flex w-full max-w-[1240px] flex-wrap items-center gap-12 px-5 pb-16 pt-14 sm:pt-[72px]">
-                <div className="flex min-w-0 flex-[1_1_520px] flex-col gap-6">
+        <main className="flex flex-col">
+            <section className="mx-auto flex w-full max-w-[1240px] flex-col px-5 pb-16 pt-14 sm:pt-[72px]">
+                <div className="flex max-w-3xl flex-col gap-6">
                     <span className="self-start rounded-full bg-accent px-3 py-1.5 text-[13px] font-semibold text-accent-foreground">
                         Quedadas en tu ciudad
                     </span>
@@ -81,26 +78,6 @@ export default function Home() {
                     </div>
                 </div>
 
-                <form action="/meetups" className="flex min-w-0 flex-[1_1_380px] flex-col gap-4 rounded-[20px] bg-muted p-7">
-                    <p className="font-display text-xl font-semibold">¿Qué te apetece hacer?</p>
-                    <label htmlFor="home-search" className="relative block">
-                        <span className="sr-only">Buscar quedadas</span>
-                        <Search className="pointer-events-none absolute left-3.5 top-1/2 size-[18px] -translate-y-1/2 text-ink-soft" aria-hidden="true" />
-                        <Input id="home-search" name="q" placeholder="Senderismo, idiomas, juegos…" className="h-12 bg-background pl-10 text-[15px]" />
-                    </label>
-                    <div className="flex flex-wrap gap-2">
-                        {CATEGORIES.map(category => (
-                            <Link
-                                key={category}
-                                href={`/meetups?category=${encodeURIComponent(category)}`}
-                                className="inline-flex h-9 items-center rounded-full border bg-background px-3.5 text-sm font-medium hover:border-primary hover:text-primary"
-                            >
-                                {category}
-                            </Link>
-                        ))}
-                    </div>
-                    <Button type="submit" size="lg" className="bg-foreground text-background hover:bg-foreground/90">Buscar quedadas</Button>
-                </form>
             </section>
 
             <section aria-labelledby="proximas" className="mx-auto flex w-full max-w-[1240px] flex-col gap-6 px-5 pb-[72px] pt-6">
@@ -139,6 +116,6 @@ export default function Home() {
                     </Button>
                 </div>
             </section>
-        </>
+        </main>
     );
 }

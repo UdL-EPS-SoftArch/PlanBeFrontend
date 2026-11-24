@@ -29,7 +29,7 @@
 - Entity types may include the audit fields `created?` / `modified?` (`Audited` in `src/types/hal.ts`, RNF-5).
 
 ## UI Building Blocks
-- Design source: `docs/design/` and `DESIGN.md`. Tokens live in `src/app/globals.css`; use token classes (`bg-primary`, `text-ink-soft`, `bg-success-soft`), never raw hex values.
+- Design source: `docs/design/`. Live component catalogue: `/design` (`src/app/design/page.tsx`). Tokens live in `src/app/globals.css`; use token classes (`bg-primary`, `text-ink-soft`, `bg-success-soft`), never raw hex values.
 - `src/components/ui/*` (shadcn/ui): `button` (default · outline · ghost · destructive · link; sizes `sm` 36px, `default` 40px, `lg` 48px), `badge` (adds `success` · `warning` · `danger` · `muted` · `accent` for statuses), `input`, `label`, `textarea`, `select`, `checkbox`, `switch`, `form`, `calendar`, `popover`, `dialog`, `sheet`, `dropdown-menu`, `tabs`, `table`, `pagination`, `alert`, `skeleton`, `separator`, `sonner` (toasts via `toast()` from `sonner`; `<Toaster />` is already in the layout).
 - `src/components/common/*`: every page renders inside `PageContainer` (`width="narrow" | "default" | "wide"`) and starts with `PageHeader`. Every data section has loading (`LoadingState`, `CardGridSkeleton`), error (`ErrorState`) and empty (`EmptyState`) states. Destructive actions go through `ConfirmDialog`. Avatars use `UserAvatar`.
 - `src/components/meetups/MeetupCard.tsx` is the one card for meetup lists; `MeetupStatusBadge` maps `OPEN`/`FULL`/`CANCELLED`/`FINISHED` to label and colour.

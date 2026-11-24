@@ -17,5 +17,5 @@ Then(/^I should see the link "([^"]*)" in the navigation bar$/, async function (
 
 Then(/^I should be on the login page with next "([^"]*)"$/, async function (next: string) {
   await this.page.waitForURL(`**/login?next=${encodeURIComponent(next)}`);
-  await expect(this.page.getByRole('heading', { level: 1 })).toHaveText('Entrar');
+  await expect(this.page.locator('#username')).toBeVisible();
 });

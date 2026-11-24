@@ -34,14 +34,11 @@ export default function RootLayout({
     return (
         <html lang="es">
             <body suppressHydrationWarning className={`${inter.variable} ${spaceGrotesk.variable} flex min-h-screen flex-col`}>
-                <a href="#contenido" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-background focus:px-4 focus:py-2 focus:shadow">
-                    Saltar al contenido
-                </a>
                 <AuthProvider>
                     <Navbar />
-                    <main id="contenido" className="flex flex-1 flex-col">
+                    <div className="flex flex-1 flex-col">
                         {children}
-                    </main>
+                    </div>
                     <Footer />
                 </AuthProvider>
                 <Toaster richColors position="top-center" />
