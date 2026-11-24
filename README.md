@@ -51,14 +51,3 @@ For complete stage-by-stage instructions and command workflows, see **[AI_DEVELO
 - **`skills/sdd-bdd-verifier/SKILL.md`**: Run `npm run test:e2e:ci` and `npm run build` and diagnose test failures.
 
 
-``` mermaid
-gitGraph
-commit id: "init"
-branch develop
-  commit id: "feat: venn"
-  branch release/v12
-  commit id: "rc"
-  checkout main
-  merge release/v12 tag: "v12.0.0"
-
-'''
