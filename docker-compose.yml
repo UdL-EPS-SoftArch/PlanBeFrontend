@@ -1,40 +1,51 @@
-version: "3.8"
-
 services:
   # Backend: Spring Data REST application
+  # Run with: docker compose --profile backend up
   backend:
-    image: udlepsi/spring-template:latest
-    # Alternatively, you can build from local Spring project
-    # build: ../spring-template
+    build:
+      context: ../spring-template
+      dockerfile: Dockerfile
+    # If you have the image published, uncomment below and comment build:
+    # image: udlepsi/spring-template:latest
     container_name: spring-template
     ports:
       - "8080:8080"
     environment:
       - SPRING_PROFILES_ACTIVE=dev
     volumes:
-      - ./spring-template-data:/data  # Optional: for persistent data
+      - spring-template-data:/data
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/api/users"]
       interval: 10s
       timeout: 5s
       retries: 5
-    # depends_on is not needed since we'll start both manually
+    profiles:
+      - backend
 
-  # Frontend: Next.js client application
+  # Frontend: Next.js client application (standalone - backend running outside Docker)
   frontend:
     build: .
     container_name: planbe-frontend
     ports:
       - "3000:3000"
     environment:
-      - NEXT_PUBLIC_API_BASE_URL=http://localhost:8080
-      - API_BASE_URL=http://localhost:8080
+      # Use host.docker.internal to reach backend running on host machine
+      - NEXT_PUBLIC_API_BASE_URL=http://host.docker.internal:8080
+      - API_BASE_URL=http://host.docker.internal:8080
+
+  # Frontend with backend in Docker (run with: docker compose --profile backend up frontend-with-backend)
+  frontend-with-backend:
+    extends:
+      service: frontend
+    container_name: planbe-frontend-with-backend
+    environment:
+      - NEXT_PUBLIC_API_BASE_URL=http://backend:8080
+      - API_BASE_URL=http://backend:8080
     depends_on:
       backend:
         condition: service_healthy
-    volumes:
-      - ./:/app  # Live reload during development (optional)
+    profiles:
+      - backend
 
-# Optional: Add a PostgreSQL database if needed
-# volumes:
-#   postgres-data:
+volumes:
+  spring-template-data:
