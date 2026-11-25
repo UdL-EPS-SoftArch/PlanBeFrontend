@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Navbar</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<nav aria-label="Principal" style="width: 100%; box-sizing: border-box; background: #FFFFFF; border-bottom: 1px solid #E7E5E0; font-family: 'Inter', system-ui, sans-serif; color: #16181D">
+  <div style="max-width: 1240px; margin: 0 auto; box-sizing: border-box; padding: 0 20px; height: 72px; display: flex; align-items: center; gap: 28px">
+    <a href="Home.dc.html" aria-label="PlanBe, inicio" style="display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: #16181D; flex-shrink: 0">
+      <svg width="30" height="30" viewBox="0 0 28 28" aria-hidden="true"><rect x="0" y="0" width="28" height="28" rx="8" fill="#E4572E"></rect><path d="M14 6.5c-3.3 0-6 2.6-6 5.9 0 4.3 6 9.1 6 9.1s6-4.8 6-9.1c0-3.3-2.7-5.9-6-5.9z" fill="#FFFFFF"></path><circle cx="14" cy="12.4" r="2.2" fill="#E4572E"></circle></svg>
+      <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 22px; letter-spacing: -0.02em">Plan<span style="color: #C2410C">Be</span></span>
+    </a>
+
+    <sc-if value="{{ wide }}" hint-placeholder-val="{{ true }}">
+      <div style="flex: 1 1 auto; min-width: 0; display: flex; gap: 4px; overflow-x: auto">
+        <sc-for list="{{ links }}" as="link" hint-placeholder-count="4">
+          <a href="{{ link.href }}" aria-current="{{ link.current }}" style="{{ link.style }}">{{ link.label }}</a>
+        </sc-for>
+      </div>
+      <div style="display: flex; align-items: center; gap: 10px; flex-shrink: 0">
+        <sc-if value="{{ logged }}" hint-placeholder-val="{{ true }}">
+          <a href="Crear.dc.html" style="height: 40px; padding: 0 16px; border-radius: 10px; background: #C2410C; color: #FFFFFF; font-weight: 600; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Crear quedada</a>
+          <a href="Perfil.dc.html" aria-label="Tu cuenta: Laia Martí" style="height: 44px; padding: 0 10px 0 4px; border-radius: 999px; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: #16181D; border: 1px solid #E7E5E0; box-sizing: border-box">
+            <span style="width: 34px; height: 34px; border-radius: 999px; background: #FDEBE4; color: #9A3412; font-weight: 700; font-size: 13px; display: inline-flex; align-items: center; justify-content: center">LM</span>
+            <span style="font-weight: 600; font-size: 14px">Laia</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4A4F5A" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>
+          </a>
+        </sc-if>
+        <sc-if value="{{ anon }}" hint-placeholder-val="{{ false }}">
+          <a href="Login.dc.html" style="height: 40px; padding: 0 14px; border-radius: 10px; color: #16181D; font-weight: 600; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center">Entrar</a>
+          <a href="Registro.dc.html" style="height: 40px; padding: 0 16px; border-radius: 10px; background: #C2410C; color: #FFFFFF; font-weight: 600; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center">Crear cuenta</a>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ compact }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-left: auto; display: flex; align-items: center; gap: 6px">
+        <sc-if value="{{ logged }}" hint-placeholder-val="{{ true }}">
+          <a href="Perfil.dc.html" aria-label="Tu cuenta: Laia Martí" style="width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center; text-decoration: none"><span style="width: 34px; height: 34px; border-radius: 999px; background: #FDEBE4; color: #9A3412; font-weight: 700; font-size: 13px; display: inline-flex; align-items: center; justify-content: center">LM</span></a>
+        </sc-if>
+        <sc-if value="{{ anon }}" hint-placeholder-val="{{ false }}">
+          <a href="Login.dc.html" style="height: 40px; padding: 0 12px; border-radius: 10px; color: #16181D; font-weight: 600; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center">Entrar</a>
+        </sc-if>
+        <button type="button" aria-label="Abrir menú" style="width: 44px; height: 44px; border: 1px solid #E7E5E0; border-radius: 10px; background: #FFFFFF; color: #16181D; display: inline-flex; align-items: center; justify-content: center; cursor: pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
+      </div>
+    </sc-if>
+  </div>
+</nav>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"active":{"editor":"enum","options":["inicio","quedadas","grupos","mis"],"default":"inicio"},"logged":{"editor":"boolean","default":true},"compact":{"editor":"boolean","default":false},"$preview":{"width":1440,"height":72}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const active = this.props.active ?? 'inicio';
+    const logged = this.props.logged ?? true;
+    const compact = this.props.compact ?? false;
+    const base = 'height: 40px; padding: 0 12px; border-radius: 8px; display: inline-flex; align-items: center; white-space: nowrap; text-decoration: none; font-size: 15px;';
+    const on = base + ' font-weight: 600; color: #16181D; background: #F5F5F3; box-shadow: inset 0 -2px 0 #C2410C;';
+    const off = base + ' font-weight: 500; color: #4A4F5A;';
+    const all = [
+      { id: 'inicio', label: 'Inicio', href: 'Home.dc.html' },
+      { id: 'quedadas', label: 'Quedadas', href: 'Quedadas.dc.html' },
+      { id: 'grupos', label: 'Grupos', href: '#grupos' },
+      { id: 'mis', label: 'Mis quedadas', href: 'MisQuedadas.dc.html', auth: true },
+    ];
+    const links = all.filter((l) => logged || !l.auth).map((l) => ({
+      ...l, style: l.id === active ? on : off, current: l.id === active ? 'page' : 'false',
+    }));
+    return { links, logged, anon: !logged, compact, wide: !compact };
+  }
+}
+</script>
+</body>
+</html>

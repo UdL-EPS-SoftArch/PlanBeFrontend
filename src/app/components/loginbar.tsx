@@ -1,73 +1,79 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { clientAuthProvider } from "@/lib/authProvider";
-import { UsersService } from "@/api/userApi";
-import { deleteCookie } from "cookies-next";
+import { ChevronDown, LogOut, Plus, UserRound } from "lucide-react";
 import { useAuth } from "@/app/components/authentication";
-import { Avatar } from "@/components/ui/avatar";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { UserAvatar } from "@/components/common/UserAvatar";
+import { userLabel } from "@/types/user";
 
+/** Session area of the navbar: account menu when signed in, Entrar / Crear cuenta otherwise. */
 export default function Loginbar() {
-    const router = useRouter();
+    const { user, loading, logout } = useAuth();
 
-    function logout() {
-        deleteCookie("MYAPP_AUTH");
-        setUser(null);
-        router.push("/");
+    if (loading) {
+        return <Skeleton className="h-10 w-36 rounded-full" aria-hidden="true" />;
     }
 
-    const {user, setUser} = useAuth();
-
-    useEffect(() => {
-        let mounted = true;
-
-        async function load() {
-            try {
-                const service = new UsersService(clientAuthProvider());
-                const user = await service.getCurrentUser();
-                setUser(user ?? null);
-            } catch {
-                if (mounted) setUser(null);
-            }
-        }
-
-        load();
-        return () => {
-            mounted = false;
-        };
-    }, []);
-
-    if (user) {
+    if (!user) {
         return (
-            <div className="flex items-center gap-5">
-                <div className="flex items-center gap-2">
-                    <Avatar className="rounded-lg flex items-center justify-center bg-gray-200">
-                        <FontAwesomeIcon icon={faUser} className="h-4 w-4"/>
-                    </Avatar>
-                    <Link href={`/users/${user.username}`}
-                          className="text-blue-600 text-md font-medium"> {user.username ?? "User"} </Link>
-                </div>
-                <button
-                    onClick={logout}
-                    className="inline-flex items-center px-3 py-1.5 bg-blue-600 text-white rounded text-sm hover:bg-blue-700"
-                >
-                    Logout
-                </button>
+            <div className="flex items-center gap-1.5">
+                <Button asChild variant="ghost">
+                    <Link href="/login">Entrar</Link>
+                </Button>
+                <Button asChild className="hidden sm:inline-flex">
+                    <Link href="/users/register">Crear cuenta</Link>
+                </Button>
             </div>
         );
     }
 
-    return (
-        <div className="flex items-center gap-2">
-            <Link href="/login"
-                  className="inline-flex items-center px-3 py-1.5 bg-blue-600 text-white rounded text-sm hover:bg-blue-700"> Login </Link>
-            <Link href="/users/register"
-                  className="inline-flex items-center px-3 py-1.5 bg-blue-600 text-white rounded text-sm hover:bg-blue-700"> Register </Link>
-        </div>
-    )
+    const name = userLabel(user);
 
+    return (
+        <div className="flex items-center gap-2.5">
+            <Button asChild className="hidden lg:inline-flex">
+                <Link href="/meetups/new"><Plus aria-hidden="true" />Crear quedada</Link>
+            </Button>
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <button
+                        type="button"
+                        aria-label={`Tu cuenta: ${name}`}
+                        className="inline-flex h-11 items-center gap-2 rounded-full border py-1 pl-1 pr-2.5 text-sm font-semibold hover:bg-muted"
+                    >
+                        <UserAvatar user={user} />
+                        <span className="hidden max-w-32 truncate sm:inline">{name}</span>
+                        <ChevronDown className="size-4 text-ink-soft" aria-hidden="true" />
+                    </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                    <DropdownMenuLabel className="flex flex-col">
+                        <span>{name}</span>
+                        <span className="text-xs font-normal text-muted-foreground">@{user.username}</span>
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                        <Link href={`/users/${user.username}`}><UserRound aria-hidden="true" />Mi perfil</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild className="lg:hidden">
+                        <Link href="/meetups/new"><Plus aria-hidden="true" />Crear quedada</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onSelect={logout}>
+                        <LogOut aria-hidden="true" />Cerrar sesión
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
+        </div>
+    );
 }

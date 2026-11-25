@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>PlanBe · Inicio</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 100%; min-height: 100vh; background: #FFFFFF; color: #16181D; font-family: 'Inter', system-ui, sans-serif; display: flex; flex-direction: column">
+  <dc-import name="Navbar" active="inicio" logged="{{ logged }}" compact="{{ compact }}" hint-size="100%,72px"></dc-import>
+
+  <main style="flex: 1; display: flex; flex-direction: column">
+    <section style="max-width: 1240px; width: 100%; margin: 0 auto; box-sizing: border-box; padding: 72px 20px 64px; display: flex; flex-wrap: wrap; gap: 48px; align-items: center">
+      <div style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
+        <span style="align-self: flex-start; padding: 6px 12px; border-radius: 999px; background: #FDEBE4; color: #9A3412; font-weight: 600; font-size: 13px">Quedadas en tu ciudad</span>
+        <h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(40px, 5.6vw, 72px); line-height: 1.02; letter-spacing: -0.035em">Haz planes con gente <span style="background: linear-gradient(transparent 62%, #FBC4AE 62%)">cerca de ti</span>.</h1>
+        <p style="margin: 0; font-size: 18px; line-height: 1.6; color: #4A4F5A; max-width: 520px">Encuentra quedadas que encajan con tus intereses, apúntate en un clic y conoce a gente que quiere hacer lo mismo que tú.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px">
+          <a href="Quedadas.dc.html" style="height: 48px; padding: 0 22px; border-radius: 10px; background: #C2410C; color: #FFFFFF; font-weight: 600; font-size: 16px; text-decoration: none; display: inline-flex; align-items: center">Explorar quedadas</a>
+          <a href="Registro.dc.html" style="height: 48px; padding: 0 22px; border-radius: 10px; border: 1px solid #D6D3CC; color: #16181D; font-weight: 600; font-size: 16px; text-decoration: none; display: inline-flex; align-items: center; box-sizing: border-box">Crear cuenta</a>
+        </div>
+      </div>
+      <form style="flex: 1 1 380px; min-width: 0; box-sizing: border-box; padding: 28px; border-radius: 20px; background: #F5F5F3; display: flex; flex-direction: column; gap: 18px">
+        <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 20px">¿Qué te apetece hacer?</span>
+        <label for="h-q" style="position: relative; display: block">
+          <span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Buscar quedadas</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4A4F5A" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="position: absolute; left: 14px; top: 15px"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+          <input id="h-q" placeholder="Senderismo, idiomas, juegos…" style="width: 100%; height: 48px; box-sizing: border-box; padding: 0 14px 0 42px; border: 1px solid #D6D3CC; border-radius: 10px; background: #FFFFFF; font: 400 15px 'Inter', sans-serif; color: #16181D">
+        </label>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px">
+          <sc-for list="{{ cats }}" as="cat" hint-placeholder-count="6">
+            <a href="Quedadas.dc.html" style="height: 36px; padding: 0 14px; border-radius: 999px; background: #FFFFFF; border: 1px solid #E7E5E0; color: #16181D; font-weight: 500; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; box-sizing: border-box">{{ cat }}</a>
+          </sc-for>
+        </div>
+        <a href="Quedadas.dc.html" style="height: 48px; border-radius: 10px; background: #16181D; color: #FFFFFF; font-weight: 600; font-size: 15px; text-decoration: none; display: flex; align-items: center; justify-content: center">Buscar quedadas</a>
+      </form>
+    </section>
+
+    <section style="max-width: 1240px; width: 100%; margin: 0 auto; box-sizing: border-box; padding: 24px 20px 72px; display: flex; flex-direction: column; gap: 24px">
+      <div style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px">
+        <h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 32px; letter-spacing: -0.02em">Próximas quedadas</h2>
+        <a href="Quedadas.dc.html" style="color: #C2410C; font-weight: 600; font-size: 15px; text-decoration: none; padding: 10px 0">Ver todas →</a>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px">
+        <sc-for list="{{ meetups }}" as="m" hint-placeholder-count="6">
+          <dc-import name="MeetupCard" item="{{ m }}" hint-size="100%,372px"></dc-import>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="background: #F5F5F3">
+      <div style="max-width: 1240px; margin: 0 auto; box-sizing: border-box; padding: 72px 20px; display: flex; flex-direction: column; gap: 36px">
+        <h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 32px; letter-spacing: -0.02em">Cómo funciona</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 32px">
+          <div style="display: flex; flex-direction: column; gap: 10px"><span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 44px; color: #E4572E; line-height: 1">1</span><span style="font-weight: 600; font-size: 18px">Busca</span><span style="font-size: 15px; line-height: 1.6; color: #4A4F5A">Filtra por categoría, ciudad o fecha. Si completas tus intereses, te recomendamos planes.</span></div>
+          <div style="display: flex; flex-direction: column; gap: 10px"><span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 44px; color: #E4572E; line-height: 1">2</span><span style="font-weight: 600; font-size: 18px">Apúntate</span><span style="font-size: 15px; line-height: 1.6; color: #4A4F5A">Si hay plaza, quedas confirmado. Si está completa, entras en la lista de espera y te avisamos.</span></div>
+          <div style="display: flex; flex-direction: column; gap: 10px"><span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 44px; color: #E4572E; line-height: 1">3</span><span style="font-weight: 600; font-size: 18px">Queda</span><span style="font-size: 15px; line-height: 1.6; color: #4A4F5A">Habla con el grupo en los comentarios y, después, valora la experiencia.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section style="max-width: 1240px; width: 100%; margin: 0 auto; box-sizing: border-box; padding: 72px 20px">
+      <div style="border-radius: 24px; background: #16181D; color: #FFFFFF; padding: 48px; display: flex; flex-wrap: wrap; gap: 24px; align-items: center; justify-content: space-between">
+        <div style="display: flex; flex-direction: column; gap: 8px; flex: 1 1 420px">
+          <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 36px); letter-spacing: -0.02em; line-height: 1.15">¿Tienes un plan? Ponle fecha.</span>
+          <span style="font-size: 16px; color: #C9CBD1">Crea una quedada, elige quién puede verla y deja que la gente se apunte.</span>
+        </div>
+        <a href="Crear.dc.html" style="height: 48px; padding: 0 22px; border-radius: 10px; background: #F08A5D; color: #16181D; font-weight: 700; font-size: 16px; text-decoration: none; display: inline-flex; align-items: center">Crear quedada</a>
+      </div>
+    </section>
+  </main>
+
+  <dc-import name="Footer" hint-size="100%,160px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"logged":{"editor":"boolean","default":false},"compact":{"editor":"boolean","default":false},"$preview":{"width":1440,"height":2160}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      logged: this.props.logged ?? false,
+      compact: this.props.compact ?? false,
+      cats: ['Deporte', 'Cultura', 'Ocio', 'Idiomas', 'Gastronomía', 'Naturaleza'],
+      meetups: [
+        { title: 'Ruta en bici por La Mitjana', category: 'Deporte', day: '13', month: 'dic', when: 'Sáb · 10:30 – 13:00', place: 'Seu Vella, Lleida', taken: 8, total: 12, status: 'open', org: 'Pau Serra', initials: 'PS' },
+        { title: 'Tarde de juegos de mesa', category: 'Ocio', day: '13', month: 'dic', when: 'Sáb · 17:00 – 20:30', place: 'Café Lliure, Lleida', taken: 6, total: 6, status: 'full', org: 'Marta Vidal', initials: 'MV' },
+        { title: 'Intercambio de idiomas ES–EN', category: 'Idiomas', day: '16', month: 'dic', when: 'Mar · 19:00 – 21:00', place: 'Biblioteca Pública, Lleida', taken: 11, total: 20, status: 'open', org: 'Jordi Puig', initials: 'JP' },
+        { title: 'Running suave por el Segre', category: 'Deporte', day: '18', month: 'dic', when: 'Jue · 08:00 – 09:00', place: 'Pont Vell, Lleida', taken: 4, total: 10, status: 'open', org: 'Laia Martí', initials: 'LM' },
+        { title: 'Visita al mercado del Pla', category: 'Gastronomía', day: '20', month: 'dic', when: 'Sáb · 11:00 – 13:00', place: 'Plaça del Mercat, Lleida', taken: 9, total: 10, status: 'open', org: 'Núria Roca', initials: 'NR' },
+        { title: 'Excursión a Montsec', category: 'Naturaleza', day: '21', month: 'dic', when: 'Dom · 08:30 – 17:00', place: 'Estación de autobuses', taken: 14, total: 15, status: 'open', org: 'Pau Serra', initials: 'PS' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

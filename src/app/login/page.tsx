@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import React, { Suspense, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useAuth } from "@/app/components/authentication";
 import { deleteCookie, setCookie } from "cookies-next";
@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { UsersService } from "@/api/userApi";
 import { clientAuthProvider } from "@/lib/authProvider";
+import { safeNextPath } from "@/lib/navigation";
 
 type FormValues = {
     username: string;
@@ -18,7 +19,17 @@ type FormValues = {
 };
 
 export default function LoginPage() {
+    // useSearchParams needs a Suspense boundary so the page can still be prerendered.
+    return (
+        <Suspense>
+            <LoginForm />
+        </Suspense>
+    );
+}
+
+function LoginForm() {
     const router = useRouter();
+    const next = safeNextPath(useSearchParams().get("next"));
     const { setUser } = useAuth();
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormValues>();
     const [ errorMessage, setErrorMessage ] = useState<string | null>(null);
@@ -39,7 +50,7 @@ export default function LoginPage() {
 
     const onSubmit: SubmitHandler<FormValues> = (data) => {
         login(data.username, data.password).then(() => {
-            router.push(`/users/${data.username}`);
+            router.push(next ?? `/users/${data.username}`);
         }).catch(() => {
             deleteCookie("MYAPP_AUTH");
             setErrorMessage("Login failed");

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>PlanBe · Entrar</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 100%; min-height: 100vh; display: flex; flex-wrap: wrap; background: #FFFFFF; color: #16181D; font-family: 'Inter', system-ui, sans-serif">
+  <section style="flex: 1 1 480px; box-sizing: border-box; padding: 48px; background: #16181D; color: #FFFFFF; display: flex; flex-direction: column; justify-content: space-between; gap: 48px; min-height: 320px">
+    <a href="Home.dc.html" aria-label="PlanBe, inicio" style="display: inline-flex; align-items: center; gap: 10px; color: #FFFFFF; text-decoration: none; align-self: flex-start">
+      <svg width="32" height="32" viewBox="0 0 28 28" aria-hidden="true"><rect x="0" y="0" width="28" height="28" rx="8" fill="#E4572E"></rect><path d="M14 6.5c-3.3 0-6 2.6-6 5.9 0 4.3 6 9.1 6 9.1s6-4.8 6-9.1c0-3.3-2.7-5.9-6-5.9z" fill="#FFFFFF"></path><circle cx="14" cy="12.4" r="2.2" fill="#E4572E"></circle></svg>
+      <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 24px; letter-spacing: -0.02em">Plan<span style="color: #F08A5D">Be</span></span>
+    </a>
+    <div style="display: flex; flex-direction: column; gap: 16px; max-width: 460px">
+      <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(32px, 3.6vw, 48px); line-height: 1.05; letter-spacing: -0.03em">Siempre hay un plan B. Y gente para hacerlo.</span>
+      <span style="font-size: 16px; line-height: 1.6; color: #C9CBD1">Entra para apuntarte a quedadas, crear las tuyas y ver quién más va.</span>
+    </div>
+  </section>
+
+  <section style="flex: 1 1 480px; box-sizing: border-box; padding: 48px 24px; display: flex; align-items: center; justify-content: center">
+    <form style="width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: 20px">
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 36px; letter-spacing: -0.025em">Entrar</h1>
+        <span style="font-size: 15px; color: #4A4F5A">¿No tienes cuenta? <a href="Registro.dc.html" style="color: #C2410C; font-weight: 600; text-decoration: none">Crear cuenta</a></span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 8px"><label for="username" style="font-weight: 600; font-size: 14px">Usuario</label><input id="username" autocomplete="username" value="laia" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 1px solid #D6D3CC; border-radius: 10px; font: 400 16px 'Inter', sans-serif"></div>
+      <div style="display: flex; flex-direction: column; gap: 8px"><label for="password" style="font-weight: 600; font-size: 14px">Contraseña</label><input id="password" type="password" autocomplete="current-password" value="contraseña" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 1px solid #D6D3CC; border-radius: 10px; font: 400 16px 'Inter', sans-serif"></div>
+      <div role="alert" style="display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border-radius: 10px; background: #FDE8E8; color: #991B1B; font-size: 14px; line-height: 1.5"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="flex-shrink: 0; margin-top: 1px"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16.5v.01"></path></svg><span>Usuario o contraseña incorrectos. Revísalos e inténtalo de nuevo.</span></div>
+      <a href="Home.dc.html" style="height: 52px; border-radius: 12px; background: #C2410C; color: #FFFFFF; font-weight: 700; font-size: 16px; text-decoration: none; display: flex; align-items: center; justify-content: center">Entrar</a>
+    </form>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

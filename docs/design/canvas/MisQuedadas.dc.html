@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>PlanBe · Mis quedadas</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 100%; min-height: 100vh; background: #FFFFFF; color: #16181D; font-family: 'Inter', system-ui, sans-serif; display: flex; flex-direction: column">
+  <dc-import name="Navbar" active="mis" logged="{{ yes }}" hint-size="100%,72px"></dc-import>
+
+  <main style="flex: 1; max-width: 960px; width: 100%; margin: 0 auto; box-sizing: border-box; padding: 48px 20px 72px; display: flex; flex-direction: column; gap: 24px">
+    <h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 40px; letter-spacing: -0.025em">Mis quedadas</h1>
+
+    <div role="tablist" aria-label="Mis quedadas" style="display: flex; gap: 4px; border-bottom: 1px solid #E7E5E0">
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="2">
+        <button type="button" role="tab" aria-selected="{{ t.selected }}" onClick="{{ t.pick }}" style="{{ t.style }}">{{ t.label }}<span style="{{ t.countStyle }}">{{ t.count }}</span></button>
+      </sc-for>
+    </div>
+
+    <ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px">
+      <sc-for list="{{ rows }}" as="r" hint-placeholder-count="3">
+        <li style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center; padding: 16px; border-radius: 16px; border: 1px solid #E7E5E0">
+          <div style="width: 56px; height: 60px; border-radius: 12px; background: #FDEBE4; color: #9A3412; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0"><span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 22px; line-height: 1">{{ r.day }}</span><span style="font-weight: 600; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 3px">{{ r.month }}</span></div>
+          <div style="flex: 1 1 260px; min-width: 0; display: flex; flex-direction: column; gap: 4px">
+            <a href="Detalle.dc.html" style="color: #16181D; text-decoration: none; font-weight: 600; font-size: 17px">{{ r.title }}</a>
+            <span style="font-size: 14px; color: #4A4F5A">{{ r.meta }}</span>
+          </div>
+          <span style="{{ r.badgeStyle }}">{{ r.badge }}</span>
+          <div style="display: flex; gap: 8px">
+            <sc-for list="{{ r.actions }}" as="a" hint-placeholder-count="2">
+              <a href="{{ a.href }}" style="{{ a.style }}">{{ a.label }}</a>
+            </sc-for>
+          </div>
+        </li>
+      </sc-for>
+    </ul>
+  </main>
+
+  <dc-import name="Footer" hint-size="100%,160px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1100}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { tab: 'part' }; }
+  renderVals() {
+    const badge = (bg, fg) => `padding: 4px 10px; border-radius: 999px; background: ${bg}; color: ${fg}; font-weight: 600; font-size: 13px; white-space: nowrap`;
+    const btn = 'height: 40px; padding: 0 14px; border-radius: 10px; border: 1px solid #D6D3CC; color: #16181D; font-weight: 600; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; box-sizing: border-box';
+    const danger = 'height: 40px; padding: 0 14px; border-radius: 10px; color: #B91C1C; font-weight: 600; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center';
+    const part = [
+      { day: '13', month: 'dic', title: 'Ruta en bici por La Mitjana', meta: 'Sáb · 10:30 · Seu Vella, Lleida', badge: 'Confirmado', badgeStyle: badge('#E0F2F0', '#0F5F58'), actions: [{ label: 'Abandonar', href: '#abandonar', style: danger }] },
+      { day: '13', month: 'dic', title: 'Tarde de juegos de mesa', meta: 'Sáb · 17:00 · Café Lliure · Eres el n.º 2 en la lista', badge: 'En lista de espera', badgeStyle: badge('#FEF3C7', '#8A3F07'), actions: [{ label: 'Salir de la lista', href: '#salir', style: danger }] },
+      { day: '02', month: 'dic', title: 'Concierto en la Llotja', meta: 'Mar · 21:00 · Teatre de la Llotja', badge: 'Finalizada', badgeStyle: badge('#F5F5F3', '#4A4F5A'), actions: [{ label: 'Valorar', href: '#valorar', style: btn }] },
+    ];
+    const org = [
+      { day: '18', month: 'dic', title: 'Running suave por el Segre', meta: 'Jue · 08:00 · 4 de 10 plazas ocupadas', badge: 'Abierta', badgeStyle: badge('#E0F2F0', '#0F5F58'), actions: [{ label: 'Editar', href: 'Crear.dc.html', style: btn }, { label: 'Cancelar', href: '#cancelar', style: danger }] },
+      { day: '24', month: 'nov', title: 'Paseo fotográfico por el Centre Històric', meta: 'Lun · 18:00 · Cancelada por lluvia', badge: 'Cancelada', badgeStyle: badge('#FDE8E8', '#991B1B'), actions: [] },
+    ];
+    const tabBase = 'height: 48px; padding: 0 16px; border: none; background: transparent; font: 600 15px Inter, sans-serif; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; margin-bottom: -1px;';
+    const tabs = [['part', 'Participo', part.length], ['org', 'Organizo', org.length]].map(([id, label, count]) => {
+      const on = this.state.tab === id;
+      return {
+        label, count,
+        selected: on ? 'true' : 'false',
+        pick: () => this.setState({ tab: id }),
+        style: tabBase + (on ? ' color: #16181D; border-bottom: 2px solid #C2410C;' : ' color: #4A4F5A; border-bottom: 2px solid transparent;'),
+        countStyle: `padding: 2px 8px; border-radius: 999px; font-size: 12px; background: ${on ? '#FDEBE4' : '#F5F5F3'}; color: ${on ? '#9A3412' : '#4A4F5A'}`,
+      };
+    });
+    return { yes: true, tabs, rows: this.state.tab === 'part' ? part : org };
+  }
+}
+</script>
+</body>
+</html>
