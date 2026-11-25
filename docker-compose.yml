@@ -3,7 +3,7 @@ services:
   # Run with: docker compose --profile backend up
   backend:
     build:
-      context: ../spring-template
+      context: ../PlanBeBackend
       dockerfile: Dockerfile
     # If you have the image published, uncomment below and comment build:
     # image: udlepsi/spring-template:latest
