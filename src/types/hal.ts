@@ -31,5 +31,13 @@ export interface Audited {
     modified?: string;
 }
 
+/** A field-level validation error as returned by Spring Data REST (`RepositoryConstraintViolationExceptionMessage`). */
+export interface FieldError {
+    entity?: string;
+    property?: string;
+    invalidValue?: unknown;
+    message: string;
+}
+
 /** Query string values accepted by `withQuery`; `undefined`, `null` and `""` are skipped. */
 export type QueryParams = Record<string, string | number | boolean | null | undefined>;

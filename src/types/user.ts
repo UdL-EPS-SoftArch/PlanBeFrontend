@@ -1,5 +1,6 @@
 import { Resource } from "halfred";
 import type { Audited } from "@/types/hal";
+import type { FieldError } from "@/lib/errors";
 
 export interface AuthorityEntity {
     authority: string;
@@ -11,15 +12,49 @@ export interface UserEntity extends Audited {
     uri?: string;
     username: string;
     email?: string;
-    password?: string;
     displayName?: string;
     bio?: string;
     avatarUrl?: string;
     city?: string;
+    showPersonalData?: boolean;
+    birthDate?: string;
+    age?: number;
+    gender?: string;
+    interests?: string[];
     authorities?: AuthorityEntity[];
 }
 
 export type User = UserEntity & Resource;
+
+/** Errores de validación del backend (RF-1.1, RF-1.2) */
+export interface UserValidationErrors {
+    email?: string;
+    displayName?: string;
+    bio?: string;
+    city?: string;
+    birthDate?: string;
+    age?: string;
+    gender?: string;
+    interests?: string;
+}
+
+/** Campos requeridos para crear/actualizar un usuario */
+export interface UserFormData {
+    username: string;
+    email: string;
+    displayName?: string;
+    bio?: string;
+    avatarUrl?: string;
+    city?: string;
+    showPersonalData?: boolean;
+    birthDate?: string;
+    age?: string;
+    gender?: string;
+    interests?: string[];
+}
+
+// Re-export FieldError for convenience
+export type { FieldError };
 
 export function hasRole(user: Pick<UserEntity, "authorities"> | null | undefined, ...roles: Role[]): boolean {
     return !!user?.authorities?.some(a => roles.includes(a.authority as Role));
