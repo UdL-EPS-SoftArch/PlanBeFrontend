@@ -1,6 +1,7 @@
 import type { Resource } from "halfred";
-import { deleteHal, getEmbedded, getHal, mergeHal, patchHal, postHal, withQuery } from "./halClient";
+import { deleteHal, getEmbedded, getHal, getNextPage, getPage, mergeHal, patchHal, postHal, withQuery } from "./halClient";
 import type { AuthProvider } from "@/lib/authProvider";
+import type { HalPage } from "@/types/hal";
 import type { CategoryId } from "@/types/category";
 import type { Meetup, MeetupEntity } from "@/types/meetup";
 
@@ -14,6 +15,25 @@ export class MeetupService {
 
     async getMeetups(): Promise<Meetup[]> {
         return this.readMeetups(await getHal("/meetups", this.authProvider));
+    }
+
+    /** Paged listing: Spring Data REST exposes `page` metadata and HAL `next`/`prev` links. */
+    async getMeetupsPage(page = 0, size = 9): Promise<HalPage<MeetupEntity>> {
+        return getPage<MeetupEntity>("/meetups", "meetups", this.authProvider, { page, size });
+    }
+
+    /** Follows HAL `next` links to build a full list (needed for the interest filter). */
+    async getAllMeetups(maxPages = 20): Promise<Meetup[]> {
+        let current = await this.getMeetupsPage(0, 100);
+        const all = [...current.items];
+        while (current.links.next && maxPages > 1) {
+            const next = await getNextPage<MeetupEntity>(current, this.authProvider);
+            if (!next) break;
+            current = next;
+            all.push(...next.items);
+            maxPages--;
+        }
+        return all;
     }
 
     async getMeetupById(id: string | number): Promise<Meetup> {
