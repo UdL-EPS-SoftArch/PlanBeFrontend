@@ -217,7 +217,12 @@ export default async function MeetupsPage({ searchParams }: { searchParams: Prom
             />
 
             <section aria-label="Filtros de quedadas" className="mb-8 rounded-xl border bg-card p-5">
-                <MeetupFilters values={filters} categories={categories} interests={interests} />
+                <MeetupFilters
+                    key={`${filters.category}|${filters.city}|${filters.startDate}|${filters.interest}`}
+                    values={filters}
+                    categories={categories}
+                    interests={interests}
+                />
             </section>
 
             <Suspense fallback={<CardGridSkeleton />}>

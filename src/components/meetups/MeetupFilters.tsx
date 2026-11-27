@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -50,14 +50,6 @@ export function MeetupFilters({
     const [city, setCity] = useState(values.city);
     const [startDate, setStartDate] = useState(values.startDate);
     const [interest, setInterest] = useState(values.interest);
-
-    // The same client component instance is reused when only searchParams change.
-    useEffect(() => {
-        setCategory(values.category);
-        setCity(values.city);
-        setStartDate(values.startDate);
-        setInterest(values.interest);
-    }, [values.category, values.city, values.startDate, values.interest]);
 
     const categoryOptions: readonly CategoryId[] = categories.length > 0
         ? categories.map(c => String(c.id))
