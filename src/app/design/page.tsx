@@ -41,8 +41,8 @@ import { MeetupCard } from "@/components/meetups/MeetupCard";
 const SAMPLE_MEETUP = {
     title: "Ruta en bici por La Mitjana",
     capacity: 12,
-    category: { id: "SPORTS", label: "Deporte" },
-    status: { id: "OPEN" },
+    category: "SPORTS",
+    status: "OPEN",
     startDate: "2026-12-13T09:30:00Z",
     endDate: "2026-12-13T12:00:00Z",
     location: { name: "Seu Vella", city: "Lleida" },
